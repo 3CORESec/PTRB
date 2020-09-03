@@ -48,7 +48,7 @@ jobs:
       run: |
         git config --global user.name 'Github Actions'
         git config --global user.email 'robot@noreply.github.com'
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/0xtf/TEMP-PTR_Bouncer 
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/3CORESec/PTRB 
         git add MISP/scanning-projects.json
         git commit -m "New MISP Warning List by CI/CD"
         git push
