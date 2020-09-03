@@ -1,0 +1,54 @@
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+name: MISP Warning List
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  workflow:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create header of warning list
+      run: |
+        cat > MISP/scanning-projects.json <<EOF
+        {
+          "description": "List of known SLDs that are known to perform enumeration or active testing/scanning",
+          "list": [
+        EOF
+    - name: Create individual entries in the warning list
+      run: |
+        while read line; do
+          if ! [ -z "$lastline" ]; then
+            echo "    \"$line\"," >> MISP/scanning-projects.json
+          fi
+          lastline=$line
+        done <ptrb-domains.txt
+        # Hey, don't judge me!
+        sed -i '$ d' MISP/scanning-projects.json
+        echo "    \"$lastline\"" >> MISP/scanning-projects.json
+    - name: Create footer of warning list
+      run: |
+        cat >> MISP/scanning-projects.json <<EOF
+          ],
+        "matching_attributes": [
+          "domain",
+          "hostname"
+          ],
+          "name": "3CORESec PTR Bouncer Community List",
+          "type": "substring",
+          "version": "$(date +%d%m%Y%H%M)"
+        }
+        EOF
+    - name: Commit generated layer file to local repository
+      run: |
+        git config --global user.name 'Github Actions'
+        git config --global user.email 'robot@noreply.github.com'
+        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/0xtf/TEMP-PTR_Bouncer 
+        git add MISP/scanning-projects.json
+        git commit -m "New MISP Warning List by CI/CD"
+        git push
