@@ -1,0 +1,84 @@
+#!/bin/bash
+
+##############################
+#     System variables       #
+##############################
+
+listURL="https://github.com/3CORESec/PTRB/raw/master/ptrb-domains.txt"
+outputFile="output.txt"
+
+##############################
+#       Help screen          #
+##############################
+
+print_help() {
+  echo -e "\nHere's a few examples on how to run ptr_bouncer:\n\n\
+Example with community domain list:                ./ptr_bouncer your_ip_list.txt\n\
+Example with custom domain list:                   ./ptr_bouncer your_ip_list.txt your_custom_domain_list.txt\n\
+Example with no stdout and only output to file:    ./ptr_bouncer your_ip_list.txt > /dev/null 2>&1\n\n\
+All IPs that do not hold a PTR record or the PTR record does not match the domain list, will be placed in output.txt.\n"
+}
+
+for arg in "$@"
+do
+  if [ "$arg" == "-h" ]
+  then
+    print_help
+    exit 0
+  fi
+done
+
+if [[ $# -eq 0 ]] ; then
+  print_help
+  exit 0
+fi
+
+########################################
+#    Custom or default domain list?    #
+########################################
+
+if [[ -z "$2" ]] ; then
+  echo -e "\nNo external domain list specified. Downloading and using community list."
+  # Check which application to use for download of community list
+  if ! command -v curl &> /dev/null
+  then
+    if ! command -v wget &> /dev/null
+    then
+      echo "curl or wget not found. Exiting."
+      exit 1
+    else
+      wget --quiet $listURL -o ptrb-domains.txt
+    fi
+  else
+    curl -sSL $listURL -o ptrb-domains.txt
+  fi
+  LIST="ptrb-domains.txt"
+else
+  LIST=$2
+fi
+
+# Clean output file from previous run
+> $outputFile
+
+########################################
+#         Verification process         #
+########################################
+
+echo ""
+
+while read ip; do
+  PTR=$(host $ip | rev | cut -d" " -f1 | awk 'BEGIN {FS="."}{ print $2"."$3}' | rev)
+  if [ "$PTR" == "." ]; then
+    echo "IP $ip does not have a PTR record. IP added to output list."
+    echo $ip >> $outputFile
+  elif grep -q "$PTR" $LIST; then
+    echo "IP $ip holds a PTR of $PTR, which is whitelisted. It will not be included in the output list."
+  else
+    echo "IP $ip has a PTR of $PTR and it is not whitelisted. IP added to output list."
+    echo $ip >> $outputFile
+  fi
+done <$1
+
+echo ""
+
+exit 0

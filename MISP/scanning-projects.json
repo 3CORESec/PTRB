@@ -1,0 +1,33 @@
+{
+  "description": "List of known SLDs that are known to perform enumeration or active testing/scanning",
+  "list": [
+    "criminalip.com",
+    "ber.space",
+    "umich.edu",
+    "onyphe.io",
+    "cloudsystemnetworks.com",
+    "cybergreen.net",
+    "shadowserver.org",
+    "binaryedge.io",
+    "threatsinkhole.com",
+    "internettl.org",
+    "ipip.net",
+    "binaryedge.ninja",
+    "stretchoid.com",
+    "shodan.io",
+    "stanford.edu",
+    "arbor-observatory.com",
+    "internet-census.org",
+    "rapid7.com",
+    "netsystemsresearch.com",
+    "censys.io",
+    "3coresec.net"
+  ],
+"matching_attributes": [
+  "domain",
+  "hostname"
+  ],
+  "name": "3CORESec PTR Bouncer Community List",
+  "type": "substring",
+  "version": "030920200204"
+}
