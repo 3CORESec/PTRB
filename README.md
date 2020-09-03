@@ -8,7 +8,7 @@ Keeping legitimate Internet security scanners off of poor reputation IP lists.
 
 * A script - That takes a list of IP addresses and checks their corresponding PTR record against a list of legitimate Internet security scanners
 * A list - A community approach to listing legitimate Internet security scanners
-* A MISP Warning List - The list information in a standard MISP Warning List standard
+* A MISP Warning List - The list information in a standard MISP Warning List format
 
 ## PTR Bouncer
 
