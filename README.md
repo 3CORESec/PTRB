@@ -46,6 +46,18 @@ If you'd like to use this information in MISP, we generate a MISP [Warning List]
 
 * ➡️ [Scanning Projects MISP Warning List](./MISP/scanning-projects.json)
 
+## Helper - Removing private IP address ranges
+
+Want to keep private IP addresses off your list?
+
+```
+sed -E -i '/(169)\.(254)(\.([2][0-5][0-5]|[1][0-9][0-9]|[1-9][0-9]|[0-9])){2}/d' your-list.txt
+sed -E -i '/(192)\.(168)(\.([2][0-5][0-5]|[1][0-9][0-9]|[1-9][0-9]|[0-9])){2}/d' your-list.txt
+sed -E -i '/(172)\.([1][6|7|8|9]|[2][0-9]|[3][0-1])(\.([2][0-5][0-5]|[1][0-9][0-9]|[1-9][0-9]|[0-9])){2}/d' your-list.txt
+sed -E -i '/(10)(\.([2][0-5][0-5]|[1][0-9][0-9]|[1-9][0-9]|[0-9])){3}/d' your-list.txt
+sed -E -i '/(127\.0\.0\.1)/d' et-open.txt
+```
+
 # Contributions
 
 We welcome all contributions to this project, however, inclusion in the domain list goes through a manual vetting process. If we added all domains to the list it would defeat the purpose of the project. Feel free to open an issue if there's a particular project or company you'd like to see added to the lists.
