@@ -20,3 +20,4 @@ rapid7.com
 netsystemsresearch.com
 censys.io
 3coresec.net
+censys-scanner.com
