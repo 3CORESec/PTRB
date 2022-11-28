@@ -21,7 +21,8 @@
     "rapid7.com",
     "netsystemsresearch.com",
     "censys.io",
-    "3coresec.net"
+    "3coresec.net",
+    "censys-scanner.com"
   ],
 "matching_attributes": [
   "domain",
@@ -29,5 +30,5 @@
   ],
   "name": "3CORESec PTR Bouncer Community List",
   "type": "substring",
-  "version": "141020200139"
+  "version": "281120221349"
 }
