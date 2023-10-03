@@ -22,7 +22,8 @@
     "netsystemsresearch.com",
     "censys.io",
     "3coresec.net",
-    "censys-scanner.com"
+    "censys-scanner.com",
+    "msn.com"
   ],
 "matching_attributes": [
   "domain",
@@ -30,5 +31,5 @@
   ],
   "name": "3CORESec PTR Bouncer Community List",
   "type": "substring",
-  "version": "281120221349"
+  "version": "031020231545"
 }
